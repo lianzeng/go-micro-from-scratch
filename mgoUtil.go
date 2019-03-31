@@ -9,11 +9,17 @@ import (
 )
 
 // run "go get -u github.com/globalsign/mgo" to download mgo code to $GOPATH/src
-
-type DocItem struct {
-	Tbl string `bson:"tbl,omitempty"`
-	Uid uint32 `bson:"uid,omitempty"`
+type MongoDbConfig struct {
+	Host           string `json:"host"`
+	Database       string `json:"db"`
+	CollectionName string `json:"coll"`
+	Mode           string `json:"mode"`
+	Username       string `json:"username"`
+	Password       string `json:"password"`
+	SyncTimeoutSec int64  `json:"timeout"` // 以秒为单位
+	Pool           int    `json:"pool"`
 }
+
 
 func ConnectMongo(dbConfig *MongoDbConfig) *mgo.Session {
 
