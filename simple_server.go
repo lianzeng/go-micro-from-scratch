@@ -22,8 +22,12 @@ type Config struct {
 }
 
 var (
-	NEWLINE    = []byte{'\n'}
-	collection *mgo.Collection
+	NEWLINE     = []byte{'\n'}
+	collection  *mgo.Collection
+	PepoleIndex = mgo.Index{
+		Key:    []string{"name"},
+		Unique: true,
+	}
 )
 
 func RegisterHandler(route *mux.Router) {
@@ -46,6 +50,9 @@ func main() {
 	defer dbSesstion.Close()
 
 	collection = dbSesstion.DB(config.DbConfig.Database).C(config.DbConfig.CollectionName)
+	if err := collection.EnsureIndex(PepoleIndex); err != nil {
+		Fatal("create db index failed.", err)
+	}
 
 	route := mux.NewRouter()
 	RegisterHandler(route)
