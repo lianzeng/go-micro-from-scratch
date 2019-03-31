@@ -2,17 +2,17 @@ package main
 
 import (
 	"fmt"
-	"io"
 	"net/http"
-	"os"
 	"runtime"
+
+	"github.com/gorilla/mux"
 
 	"github.com/globalsign/mgo"
 )
 
-type DocItem struct {
-	Tbl string `bson:"tbl,omitempty"`
-	Uid uint32 `bson:"uid,omitempty"`
+type People struct {
+	Name string `bson:"name,omitempty" json:"name,omitempty"`
+	Job  string `bson:"job,omitempty" json:"job,omitempty"`
 }
 
 type Config struct {
@@ -26,17 +26,10 @@ var (
 	collection *mgo.Collection
 )
 
-func Fatal(v ...interface{}) {
-	os.Stderr.WriteString(fmt.Sprint(v, "\n"))
-	os.Exit(1)
-}
-
-func defaultHandle(w http.ResponseWriter, req *http.Request) {
-	io.WriteString(w, "hello Go ! \nGoodbye C++.")
-}
-
-func RegisterHandler(svrmux *http.ServeMux) {
-	svrmux.HandleFunc("/", defaultHandle)
+func RegisterHandler(route *mux.Router) {
+	route.HandleFunc("/{Name}/{Job}", addPeople).Methods("POST")
+	route.HandleFunc("/{Name}", findPeople).Methods("GET")
+	route.PathPrefix("/").HandlerFunc(defaultHandle) //default route
 }
 
 func main() {
@@ -47,17 +40,15 @@ func main() {
 		Fatal("ReadConfig Failed. ", err)
 	}
 
-	runtime.GOMAXPROCS(config.MaxProcs)
+	runtime.GOMAXPROCS(config.MaxProcs) //set max thread
 
 	dbSesstion := ConnectMongo(&config.DbConfig)
 	defer dbSesstion.Close()
 
-	fmt.Println(config.DbConfig.Database)
-
 	collection = dbSesstion.DB(config.DbConfig.Database).C(config.DbConfig.CollectionName)
 
-	svrmux := http.NewServeMux()
-	RegisterHandler(svrmux)
+	route := mux.NewRouter()
+	RegisterHandler(route)
 
-	Fatal(http.ListenAndServe(config.BindHost, svrmux))
+	Fatal(http.ListenAndServe(config.BindHost, route))
 }

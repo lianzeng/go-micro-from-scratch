@@ -6,7 +6,7 @@
 
 4.run demo:  ./simple_server -f config.conf 
 
-5.check db result:  
-5.1. login by mongo shell: mongo
+5.use curl as client:
+curl -I  -X POST http://127.0.0.1:8000/zhangshan/engineer
+curl   -X GET http://127.0.0.1:8000/zhangshan
 
-5.2. use db_demo ; db.coll_demo.find(); 
