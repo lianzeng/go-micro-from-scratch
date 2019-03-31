@@ -1,4 +1,5 @@
 *  run "go get -u github.com/globalsign/mgo" to download mgo driver to $GOPATH/src ,  $GOPATH="~/go"
+*  run "go get -u github.com/gorilla/mux" go download http route framework, it's bettern then native http.ServeMux.
 
 * compile: go build simple_server.go mgoUtil.go 
 
