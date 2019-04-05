@@ -1,3 +1,9 @@
 #!/bin/bash
 
-go build simple_server.go config.go mgoWrapper.go common.go business.go
+curDir=`pwd`
+export GOPATH=$curDir:~/go
+#echo $GOPATH
+go build main.go
+
+echo "ok,pls run: ./main  -f config.conf" 
+

@@ -1,4 +1,4 @@
-package main
+package service
 
 import (
 	"fmt"
@@ -19,7 +19,6 @@ type MongoDbConfig struct {
 	SyncTimeoutSec int64  `json:"timeout"` // 以秒为单位
 	Pool           int    `json:"pool"`
 }
-
 
 func ConnectMongo(dbConfig *MongoDbConfig) *mgo.Session {
 

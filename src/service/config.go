@@ -1,4 +1,4 @@
-package main
+package service
 
 import (
 	"bytes"
@@ -7,6 +7,10 @@ import (
 	"flag"
 	"fmt"
 	"io/ioutil"
+)
+
+var (
+	NEWLINE = []byte{'\n'}
 )
 
 func trimComments(data []byte) (dataWithoutComments []byte) {
@@ -57,7 +61,7 @@ func parseConfig(configFile string, ret interface{}) (err error) {
 }
 
 func ReadConfig(config interface{}) error {
-	configFileName := flag.String("f", "", "simple_server -f config_file_name")
+	configFileName := flag.String("f", "", "./main -f config.conf")
 	flag.Parse()
 	if *configFileName == "" {
 		return errors.New("no config file provided!")
