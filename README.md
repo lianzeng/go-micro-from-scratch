@@ -13,7 +13,7 @@
 * curl -I  -X POST http://127.0.0.1:8000/zhangshan/engineer
 * curl   -X GET http://127.0.0.1:8000/zhangshan
 
-* TODO: add test case , httptest.NewServer
+* TODO: add test case(unit test + component test + benchmark test) , httptest.NewServer
 
 * TODO: add  profile about cpu,memory for tracking perfomance problem
 
