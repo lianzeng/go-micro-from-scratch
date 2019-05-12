@@ -1,2 +1,17 @@
+Vscode settings:
+ if use vscode, need set go.gopath(within settings.json) to  "/Users/liangzeng/go/:path/to/current/dir"
+
+Get dependent pkgs:
+*  run "go get -u github.com/globalsign/mgo" to download mongodb golang driver to $GOPATH/src ,  $GOPATH="~/go"
+*  run "go get -u github.com/gorilla/mux" to download http route framework, it's bettern than native http.ServeMux.
+
+
+
+1) start mongodb:  mongod --port 27017 --dbpath ~/path/to/db
+
+2) compile: ./build.sh
+
+3) run server:  ./main -f config.conf 
+
 curl -v -XPOST  "http://127.0.0.1:8000/zs/coder"   //add info to mongo
 curl -v -XGET  "http://127.0.0.1:8000/zs"    //get from mongo
