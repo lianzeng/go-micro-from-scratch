@@ -1,6 +1,7 @@
 package auditlog
 
 import (
+	"autoRecover"
 	"bytes"
 	"encoding/json"
 	"net/http"
@@ -27,9 +28,9 @@ func (r *responseWriter) WriteHeader(code int) {
 }
 
 //log request and response to logfile
-func HandleWithAuditlog(next http.Handler) http.Handler {
+func HandleWithAuditlog(route http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
-		handlerWithLogRecord(req, w, next.ServeHTTP)
+		handlerWithLogRecord(req, w, route.ServeHTTP)
 	})
 }
 
@@ -40,10 +41,11 @@ func handlerWithLogRecord(req *http.Request, w http.ResponseWriter, f func(w htt
 		logBody:        make([]byte, 100),
 		code:           200,
 	}
-	f(w1, req)
+
+	autoRecover.Handle(req, w1, f) //call f(w1,req)
+
 	endTime := time.Now().UnixNano() / 100
 	b := bytes.NewBuffer(nil)
-
 	b.WriteString("REQ\t")
 	b.WriteString(strconv.FormatInt(startTime, 10))
 	b.WriteByte('\t')
@@ -51,7 +53,6 @@ func handlerWithLogRecord(req *http.Request, w http.ResponseWriter, f func(w htt
 	b.WriteByte('\t')
 	b.WriteString(req.URL.Path)
 	b.WriteByte('\t')
-
 	header, _ := json.Marshal(req.Header)
 	b.Write(header)
 	b.WriteByte('\t')

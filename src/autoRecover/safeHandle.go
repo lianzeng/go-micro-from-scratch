@@ -6,7 +6,7 @@ import (
 	"runtime/debug"
 )
 
-func SafeWrapper(req *http.Request, w http.ResponseWriter, f func(req *http.Request, w http.ResponseWriter)) {
+func Handle(req *http.Request, w http.ResponseWriter, f func(w http.ResponseWriter, req *http.Request)) {
 	defer func() {
 		p := recover()
 		if p != nil {
@@ -15,5 +15,5 @@ func SafeWrapper(req *http.Request, w http.ResponseWriter, f func(req *http.Requ
 			w.WriteHeader(597)
 		}
 	}()
-	f(req, w)
+	f(w, req)
 }

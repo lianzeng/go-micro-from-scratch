@@ -25,6 +25,7 @@ func NewService(coll *mgo.Collection) *Service {
 }
 
 func (s *Service) RegisterHandler(route *mux.Router) {
+	route.HandleFunc("/panic", func(http.ResponseWriter, *http.Request) { panic("test panic auto recover.") })
 	route.HandleFunc("/{Name}/{Job}", s.addPeople).Methods("POST")
 	route.HandleFunc("/{Name}", s.findPeople).Methods("GET")
 	route.PathPrefix("/").HandlerFunc(defaultHandle) //default route
