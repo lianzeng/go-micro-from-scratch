@@ -1,0 +1,2 @@
+curl -v -XPOST  "http://127.0.0.1:8000/zs/coder"   //add info to mongo
+curl -v -XGET  "http://127.0.0.1:8000/zs"    //get from mongo

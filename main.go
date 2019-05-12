@@ -45,8 +45,9 @@ func main() {
 
 	route := mux.NewRouter()
 	svr := NewService(mgoColl)
-	svr.RegisterHandler(route)
+	svr.RegisterHandler(route) //register restful API
 
+	fmt.Println("start server ", config.BindHost)
 	Fatal(http.ListenAndServe(config.BindHost, route)) //shouldn't return.
 	//TODO: add  profile for cpu, memory
 }

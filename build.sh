@@ -1,9 +1,9 @@
 #!/bin/bash
 
 curDir=`pwd`
-export GOPATH=$curDir:~/go
+export GOPATH=~/go:$curDir
 #echo $GOPATH
-go build main.go
+go build *.go
 
 echo "ok,pls run: ./main  -f config.conf" 
 
