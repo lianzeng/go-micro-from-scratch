@@ -1,6 +1,7 @@
 package main
 
 import (
+	"auditlog"
 	"fmt"
 	"net/http"
 	"runtime"
@@ -48,6 +49,6 @@ func main() {
 	svr.RegisterHandler(route) //register restful API
 
 	fmt.Println("start server ", config.BindHost)
-	Fatal(http.ListenAndServe(config.BindHost, route)) //shouldn't return.
+	Fatal(http.ListenAndServe(config.BindHost, auditlog.HandleWithAuditlog(route))) //shouldn't return.
 	//TODO: add  profile for cpu, memory
 }

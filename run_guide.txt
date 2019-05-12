@@ -11,7 +11,7 @@ Get dependent pkgs:
 
 2) compile: ./build.sh
 
-3) run server:  ./main -f config.conf 
+3) run server:  ./main -f config.conf ,  it will auto generate tmp.log
 
 curl -v -XPOST  "http://127.0.0.1:8000/zs/coder"   //add info to mongo
 curl -v -XGET  "http://127.0.0.1:8000/zs"    //get from mongo

@@ -31,7 +31,8 @@ func (s *Service) RegisterHandler(route *mux.Router) {
 }
 
 func defaultHandle(w http.ResponseWriter, req *http.Request) {
-	io.WriteString(w, "hello Go ! \n no handler register for path:"+req.URL.Path+"\n")
+	w.WriteHeader(501)
+	io.WriteString(w, "not implemented for path "+req.URL.Path)
 }
 
 func (s *Service) addPeople(w http.ResponseWriter, req *http.Request) {
